@@ -25,6 +25,7 @@ Ablesewert
 export interface Meter {
     id: string;
     type: MeterType;
+    readings: MeterReading[];
 }
 
 export interface MeterReading {

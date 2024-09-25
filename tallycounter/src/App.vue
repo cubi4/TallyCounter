@@ -14,7 +14,7 @@ import MeterForm from "./components/MeterForm.vue";
 .app {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     height: 100vh;
 }

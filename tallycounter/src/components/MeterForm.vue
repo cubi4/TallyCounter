@@ -6,7 +6,12 @@
         </FloatLabel>
 
         <FloatLabel>
-            <label for="nummer">Nummer</label>
+            <label for="nummer">tallyId</label>
+            <InputMask id="tallyId" v-model="tallyId" mask="99999999" placeholder="12345678" />
+        </FloatLabel>
+
+        <FloatLabel>
+            <label for="Wert">Wert</label>
             <InputMask id="value" v-model="value" mask="99999.999" placeholder="12456.789" />
         </FloatLabel>
 
@@ -58,10 +63,10 @@
                 <label for="Sonstiges" class="ml-2">Sonstiges</label>
             </div>
         </div>
-        
-        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary"/>
-        <Button label="Zähler hinzufügen" />
 
+        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
+        <Button label="Zähler hinzufügen" />
+        {{ tallyId }}
         {{ name }}
         {{ value }}
         {{ date }}
@@ -75,10 +80,10 @@ import FloatLabel from "primevue/floatlabel";
 import InputMask from "primevue/inputmask";
 import DatePicker from "primevue/datepicker";
 import RadioButton from "primevue/radiobutton";
-import Button from 'primevue/button';
-
+import Button from "primevue/button";
 import { ref } from "vue";
 
+const tallyId = ref("");
 const value = ref(null);
 const name = ref("");
 const date = ref("");
@@ -89,11 +94,12 @@ const maxDate = today.toISOString().split("T")[0];
 const maxDateFormatted = maxDate.split("-").reverse().join(".");
 
 function resetForm() {
-  name.value = "";
-  value.value = null;
-  date.value = "";
-  tallyType.value = "";
-};
+    tallyId.value = "";
+    name.value = "";
+    value.value = null;
+    date.value = "";
+    tallyType.value = "";
+}
 </script>
 
 <style scoped></style>

@@ -1,0 +1,33 @@
+[
+    {
+        "id": "1",
+        "type": "Strom",
+        "readerId": "Adrian",
+        "date": "2023-01-15T00:00:00.000Z",
+        "readings": [
+            {
+                "value": "123456.799",
+                "readerId": "Adrian",
+                "date": "2023-01-15T00:00:00.000Z"
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "type": "Strom",
+        "readerId": "Adrian",
+        "date": "2023-01-25T00:00:00.000Z",
+        "readings": [
+            {
+                "value": "12345.678",
+                "readerId": "001",
+                "date": "2023-01-15T00:00:00.000Z"
+            },
+            {
+                "value": "12567.89",
+                "readerId": "001",
+                "date": "2023-01-15T00:00:00.000Z"
+            }
+        ]
+    }
+]
