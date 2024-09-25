@@ -13,21 +13,20 @@
 
 <script setup lang="ts">
 import { MeterReading } from "../types";
+import readingsData from '../assets/meterReadings.json';
 
-// dummy data
-const readings: MeterReading[] = [
-  {
-    value: 553426.0,
-    readerId: '123',
-    date: new Date('2023-01-03'),
-  },
-  {
-    value: 743872.0,
-    readerId: '124',
-    date: new Date('2023-01-03'),
-  },
-];
+const readings: MeterReading[] = readingsData.map(reading => ({
+  ...reading,
+  date: new Date(reading.date)
+}));
+
   
 </script>
 
-<style scoped></style>
+<style scoped>
+.overview-item{
+  background-color: rgb(32, 112, 182);
+  margin: 10px;
+}
+
+</style>
