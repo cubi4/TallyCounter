@@ -69,11 +69,13 @@
 
 
         <div v-for="(meter, index) in meters" :key="index">
-            <h3>Zähler {{ meter.meterName }}</h3>
-            <p>Zählertyp: {{ meter.type }}</p>
-            <p>Ablesewert: {{ meter.readingCount }}</p>
-            <p>Ablesedatum: {{ meter.date }}</p>
-            <p>Abgelesen von: {{ meter.readerName }}</p>
+            <h3>Zählernummer: {{ meter.meterName }}</h3>
+            <p>Zählerart: {{ meter.type }}</p>
+            <div v-for="(reading, rIndex) in meter.readings" :key="rIndex">
+                <p>Abgelesen von: {{ reading.readerName }}</p>
+                <p>Wert: {{ reading.value }}</p>
+                <p>Datum: {{ reading.date }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -108,17 +110,21 @@ function resetForm() {
     meterType.value = "";
 }
 
-//Arry for Meters added
+//Aarry for Meters added
 const meters = ref<Meter[]>([]);
 
 //Add Meter
 function AddMeter() {
     const newMeter = {
         meterName: meterName.value,
-        readerName: readerName.value,
-        readingCount: readingCount.value,
-        date: date.value,
         type: meterType.value,
+        readings: [
+            {   
+                readerName: readerName.value,
+                value: readingCount.value,
+                date: date.value,
+            },
+        ],
     };
     meters.value.push(newMeter);
     resetForm();
