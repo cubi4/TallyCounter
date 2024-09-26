@@ -43,7 +43,7 @@
                 <label for="Sonstiges" class="ml-2">Sonstiges</label>
             </div>
         </div>
-        <Button label="Zähler hinzufügen" @click="addMeterToStore" />
+        <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus"/>
 
         <!-- -------------------Zählerstand------------------- -->
 
@@ -77,9 +77,8 @@
             :placeholder="maxDateFormatted"
         />
         <!-- generieren? -->
-
-        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
-        <Button label="Zählerstand hinzufügen" @click="addMeterToStore" />
+        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary"/>
+        <Button label="Zählerstand hinzufügen" @click="addMeterReadingToStore" icon="pi pi-plus"/>
 
         <!-- <div v-for="(meter, index) in meters" :key="index">
             <h3>Zählernummer: {{ meter.meterName }}</h3>
@@ -102,11 +101,9 @@ import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import Select from "primevue/select";
 import { ref, computed } from "vue";
-import { useMeterStore } from '../stores/useMeterStore';
-
+import { useMeterStore } from "../stores/useMeterStore";
 
 const meterStore = useMeterStore();
-
 
 //Max Date for Datepicker
 const today = new Date();
@@ -123,9 +120,8 @@ const meterType = ref("");
 //Variables Select
 const selectedMeter = ref(null);
 const meterOptions = computed(() => {
-    return meterStore.meters.map(meter => meter.meterName);
-} );
-
+    return meterStore.meters.map((meter) => meter.meterName);
+});
 
 function resetForm() {
     meterName.value = "";
@@ -143,21 +139,31 @@ function formatDate(date: Date): string {
 }
 
 function addMeterToStore() {
-  const newMeter = {
-    meterName: meterName.value,
-    type: meterType.value,
-    readings: [
-      {
+    const newMeter = {
+        meterName: meterName.value,
+        type: meterType.value,
+        readings: [],
+    };
+
+    meterStore.addMeter(newMeter);
+
+    resetForm();
+}
+
+function addMeterReadingToStore() {
+    if (!selectedMeter.value) {
+        alert("Bitte wählen Sie einen Zähler aus");
+        return;
+    }
+
+    const newReading = {
         readerName: readerName.value,
         value: readingCount.value,
         date: date.value,
-      },
-    ],
-  };
+    };
 
-  meterStore.addMeter(newMeter);
-
-  resetForm();
+    meterStore.addMeterReading(selectedMeter.value, newReading);
+    resetForm();
 }
 </script>
 

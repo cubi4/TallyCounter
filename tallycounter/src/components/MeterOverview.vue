@@ -12,7 +12,14 @@
             <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
                 <h3>Zählernummer: {{ meter.meterName }}</h3>
                 <p>Zählerart: {{ meter.type }}</p>
-                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex">
+                <Button
+                label="Löschen"
+                @click="deleteMeter(meter.meterName)"
+                icon="pi pi-trash"
+                class="p-button-danger"
+                />
+                <Button label="Bearbeiten" @click="editMeter(meter)" icon="pi pi-pen-to-square" class="p-button-warning" />
+                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex" class="reading-item">
                     <p>Abgelesen von: {{ reading.readerName }}</p>
                     <p>Wert: {{ reading.value }}</p>
                     <p>Datum: {{ reading.date }}</p>
@@ -38,20 +45,39 @@
 // import dummyData from "../assets/dummyData.json";
 import { ref } from "vue";
 import Select from "primevue/select";
-import { useMeterStore } from '../stores/useMeterStore';
-
+import Button from "primevue/button";
+import 'primeicons/primeicons.css'
+import { useMeterStore } from "../stores/useMeterStore";
+import { Meter } from "../types.ts";
 
 const meterStore = useMeterStore();
 
 const viewOptions = ["Normale Ansicht", "Zähleransicht", "Zähleransicht mit Zählerstand"];
 const selectedView = ref("Normale Ansicht");
 
+function editMeter(meter: Meter) {
+    console.log("Edit Meter", meter);
+}
+
+function deleteMeter(meterName: string) {
+    if (confirm(`Bist du sicher, dass du den Zähler ${meterName} löschen möchtest?`)) {
+        meterStore.removeMeter(meterName); // Ruft die Löschfunktion im Store auf
+    }
+}
 </script>
 
 <style scoped>
 .overview-item {
-    background-color: rgb(32, 112, 182);
+    border: 1px solid #ccc;
     margin: 10px;
 }
-</style>
 
+.reading-item {
+    background-color: rgb(23, 23, 173); /* Leichtes Lila als Hintergrund */
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+</style>

@@ -21,6 +21,11 @@ export const useMeterStore = defineStore("meterStore", () => {
         }
     };
 
+    const removeMeter = (meterName: string) => {
+        meters.value = meters.value.filter((m) => m.meterName !== meterName);
+    };
+
+
     const clearMeters = () => {
         meters.value = [];
     };
@@ -30,6 +35,7 @@ export const useMeterStore = defineStore("meterStore", () => {
         getAllMeters,
         addMeter,
         addMeterReading,
+        removeMeter,
         clearMeters,
     };
 });
