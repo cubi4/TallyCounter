@@ -1,6 +1,5 @@
 <template>
     <div class="MeterForm">
-
         <!-- -------------------Zähler------------------- -->
         <h1>Zähler hinzufügen</h1>
 
@@ -44,17 +43,16 @@
                 <label for="Sonstiges" class="ml-2">Sonstiges</label>
             </div>
         </div>
-        <Button label="Zählerstand hinzufügen" @click="EmitNewMeter" />
+        <Button label="Zähler hinzufügen" @click="addMeterToStore" />
 
-
-<!-- -------------------Zählerstand------------------- -->
+        <!-- -------------------Zählerstand------------------- -->
 
         <h1>Zählerstand hinzufügen</h1>
 
         <p>Für welchen Zähler?</p>
         <Select
-            v-model="selectedView"
-            :options="viewOptions"
+            v-model="selectedMeter"
+            :options="meterOptions"
             placeholder="Ansicht auswählen"
             class="w-full md:w-56"
         />
@@ -81,7 +79,7 @@
         <!-- generieren? -->
 
         <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
-        <Button label="Zählerstand hinzufügen" @click="EmitNewMeter" />
+        <Button label="Zählerstand hinzufügen" @click="addMeterToStore" />
 
         <!-- <div v-for="(meter, index) in meters" :key="index">
             <h3>Zählernummer: {{ meter.meterName }}</h3>
@@ -103,7 +101,12 @@ import DatePicker from "primevue/datepicker";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import Select from "primevue/select";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useMeterStore } from '../stores/useMeterStore';
+
+
+const meterStore = useMeterStore();
+
 
 //Max Date for Datepicker
 const today = new Date();
@@ -118,10 +121,11 @@ const date = ref(new Date());
 const meterType = ref("");
 
 //Variables Select
-const viewOptions = ["CoolerZähler", "UncoolerZähler", "RichtigCoolerZähler"];
-const selectedView = ref("");
+const selectedMeter = ref(null);
+const meterOptions = computed(() => {
+    return meterStore.meters.map(meter => meter.meterName);
+} );
 
-const emit = defineEmits(["add-meter"]);
 
 function resetForm() {
     meterName.value = "";
@@ -138,22 +142,22 @@ function formatDate(date: Date): string {
     return `${day}.${month}.${year}`; // format to dd.mm.yyyy
 }
 
-function EmitNewMeter() {
-    const formattedDate = formatDate(date.value);
-    const newMeter = {
-        meterName: meterName.value,
-        type: meterType.value,
-        readings: [
-            {
-                readerName: readerName.value,
-                value: readingCount.value,
-                date: formattedDate,
-            },
-        ],
-    };
-    // meters.value.push(newMeter);
-    emit("add-meter", newMeter);
-    resetForm();
+function addMeterToStore() {
+  const newMeter = {
+    meterName: meterName.value,
+    type: meterType.value,
+    readings: [
+      {
+        readerName: readerName.value,
+        value: readingCount.value,
+        date: date.value,
+      },
+    ],
+  };
+
+  meterStore.addMeter(newMeter);
+
+  resetForm();
 }
 </script>
 
