@@ -10,25 +10,25 @@ export const useMeterStore = defineStore("meterStore", () => {
     const getAllMeters = () => meters.value;
 
     // methods
-    const addMeter = (newMeter: Meter) => {
+    function addMeter(newMeter: Meter) {
         meters.value.push(newMeter);
-    };
+    }
 
-    const addMeterReading = (meterName: string, newReading: MeterReading) => {
+    function addMeterReading(meterName: string, newReading: MeterReading) {
         const meter = meters.value.find((m) => m.meterName === meterName);
         if (meter) {
             meter.readings.push(newReading);
         }
-    };
+    }
 
-    const removeMeter = (meterName: string) => {
+
+    function removeMeter(meterName: string) {
         meters.value = meters.value.filter((m) => m.meterName !== meterName);
-    };
+    }
 
-
-    const clearMeters = () => {
+    function clearMeters() {
         meters.value = [];
-    };
+    }
 
     return {
         meters,

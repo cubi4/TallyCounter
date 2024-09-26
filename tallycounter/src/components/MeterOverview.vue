@@ -13,12 +13,17 @@
                 <h3>Zählernummer: {{ meter.meterName }}</h3>
                 <p>Zählerart: {{ meter.type }}</p>
                 <Button
-                label="Löschen"
-                @click="deleteMeter(meter.meterName)"
-                icon="pi pi-trash"
-                class="p-button-danger"
+                    label="Löschen"
+                    @click="deleteMeter(meter.meterName)"
+                    icon="pi pi-trash"
+                    class="p-button-danger"
                 />
-                <Button label="Bearbeiten" @click="editMeter(meter)" icon="pi pi-pen-to-square" class="p-button-warning" />
+                <Button
+                    label="Bearbeiten"
+                    @click="editMeter(meter)"
+                    icon="pi pi-pen-to-square"
+                    class="p-button-warning"
+                />
                 <div v-for="(reading, rIndex) in meter.readings" :key="rIndex" class="reading-item">
                     <p>Abgelesen von: {{ reading.readerName }}</p>
                     <p>Wert: {{ reading.value }}</p>
@@ -46,7 +51,7 @@
 import { ref } from "vue";
 import Select from "primevue/select";
 import Button from "primevue/button";
-import 'primeicons/primeicons.css'
+import "primeicons/primeicons.css";
 import { useMeterStore } from "../stores/useMeterStore";
 import { Meter } from "../types.ts";
 
@@ -79,5 +84,4 @@ function deleteMeter(meterName: string) {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
 </style>
