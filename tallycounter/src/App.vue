@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import MeterOverview from "./components/MeterOverview.vue";
 import MeterForm from "./components/MeterForm.vue";
+import { Meter } from './types';
+import { ref } from 'vue';
+
+const metersData = ref<Meter[]>([]);
+
+function addMeterToList(newMeter: Meter) {
+  metersData.value.push(newMeter);
+}
+
 </script>
 
 <template>
     <div class="app">
-        <MeterOverview class="MeterOverview" />
-        <MeterForm class="MeterForm" />
+        <MeterOverview class="MeterOverview" :meters="metersData"/>
+        <MeterForm class="MeterForm" @add-meter="addMeterToList"/>
     </div>
 </template>
 

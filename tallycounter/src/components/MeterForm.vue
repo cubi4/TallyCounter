@@ -68,7 +68,7 @@
         <Button label="Zähler hinzufügen" @click="AddMeter" />
 
 
-        <div v-for="(meter, index) in meters" :key="index">
+        <!-- <div v-for="(meter, index) in meters" :key="index">
             <h3>Zählernummer: {{ meter.meterName }}</h3>
             <p>Zählerart: {{ meter.type }}</p>
             <div v-for="(reading, rIndex) in meter.readings" :key="rIndex">
@@ -76,7 +76,7 @@
                 <p>Wert: {{ reading.value }}</p>
                 <p>Datum: {{ reading.date }}</p>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -88,7 +88,6 @@ import DatePicker from "primevue/datepicker";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import { ref } from "vue";
-import { Meter } from "../types";
 
 //Max Date for Datepicker
 const today = new Date();
@@ -102,6 +101,8 @@ const readingCount = ref(null);
 const date = ref(new Date());
 const meterType = ref("");
 
+const emit = defineEmits(["add-meter"]);
+
 function resetForm() {
     meterName.value = "";
     readerName.value = "";
@@ -110,10 +111,7 @@ function resetForm() {
     meterType.value = "";
 }
 
-//Aarry for Meters added
-const meters = ref<Meter[]>([]);
 
-//Add Meter
 function AddMeter() {
     const newMeter = {
         meterName: meterName.value,
@@ -126,7 +124,8 @@ function AddMeter() {
             },
         ],
     };
-    meters.value.push(newMeter);
+    // meters.value.push(newMeter);
+    emit("add-meter", newMeter)
     resetForm();
 }
 </script>

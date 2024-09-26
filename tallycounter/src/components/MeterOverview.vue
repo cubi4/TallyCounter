@@ -3,21 +3,27 @@
         <h2>Zählerstände</h2>
         <h3>Übersicht</h3>
         <div class="overview-list">
-            <div v-for="element in data" :key="element.readerId" class="overview-item">
-                <span class="reading-date">{{ element.date }}</span>
-                <span class="reading-value">{{ element?.readings?.map(e => e.value) || 'No readings available' }}: </span>
+            <div v-for="(meter, index) in meters" :key="index" class="overview-item">
+                <h3>Zählernummer: {{ meter.meterName }}</h3>
+                <p>Zählerart: {{ meter.type }}</p>
+                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex">
+                    <p>Abgelesen von: {{ reading.readerName }}</p>
+                    <p>Wert: {{ reading.value }}</p>
+                    <p>Datum: {{ reading.date }}</p>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-// import { Meter } from "../types";
-import { ref } from 'vue';
-import dummyData from "../assets/dummyData.json";
+// import { ref } from "vue";
+// import dummyData from "../assets/dummyData.json";
+import { Meter } from "../types";
 
-const data = ref(dummyData);
+const props = defineProps<{ meters: Meter[] }>();
 
+console.log(props.meters);
 </script>
 
 <style scoped>
