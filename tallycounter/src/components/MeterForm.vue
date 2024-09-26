@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="MeterForm">
         <FloatLabel>
             <label for="name">Vorname, Nachname</label>
             <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
@@ -65,7 +65,7 @@
         </div>
 
         <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
-        <Button label="Zähler hinzufügen" @click="AddMeter" />
+        <Button label="Zähler hinzufügen" @click="EmitNewMeter" />
 
 
         <!-- <div v-for="(meter, index) in meters" :key="index">
@@ -111,8 +111,16 @@ function resetForm() {
     meterType.value = "";
 }
 
+function formatDate(date: Date): string {
+  const day = String(date.getDate()).padStart(2, '0'); // adds extra 0 if string.length is < 2 digits
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const year = date.getFullYear(); 
+  return `${day}.${month}.${year}`; // format to dd.mm.yyyy
+}
 
-function AddMeter() {
+
+function EmitNewMeter() {
+    const formattedDate = formatDate(date.value);
     const newMeter = {
         meterName: meterName.value,
         type: meterType.value,
@@ -120,7 +128,7 @@ function AddMeter() {
             {   
                 readerName: readerName.value,
                 value: readingCount.value,
-                date: date.value,
+                date: formattedDate,
             },
         ],
     };
@@ -130,4 +138,10 @@ function AddMeter() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.MeterForm {
+    margin-top: 50px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+</style>
