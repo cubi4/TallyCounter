@@ -2,17 +2,17 @@
     <div>
         <FloatLabel>
             <label for="name">Vorname, Nachname</label>
-            <InputText type="text" id="name" v-model="name" placeholder="Max Mustermann" />
+            <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
         </FloatLabel>
 
         <FloatLabel>
-            <label for="nummer">tallyId</label>
-            <InputMask id="tallyId" v-model="tallyId" mask="99999999" placeholder="12345678" />
+            <label for="nummer">meterName</label>
+            <InputMask id="tallyId" v-model="meterName" mask="99999999" placeholder="12345678" />
         </FloatLabel>
 
         <FloatLabel>
             <label for="Wert">Wert</label>
-            <InputMask id="value" v-model="value" mask="99999.999" placeholder="12456.789" />
+            <InputMask id="value" v-model="readingCount" mask="99999.999" placeholder="12456.789" />
         </FloatLabel>
 
         <DatePicker
@@ -29,23 +29,23 @@
         <!-- generieren? -->
         <div style="display: flex; flex-direction: column; width: 100%">
             <div class="radio-item">
-                <RadioButton v-model="tallyType" inputId="Strom" name="tallyType" value="Strom" />
+                <RadioButton v-model="meterType" inputId="Strom" name="tallyType" value="Strom" />
                 <label for="Strom" class="ml-2">Strom</label>
             </div>
 
             <div class="radio-item">
-                <RadioButton v-model="tallyType" inputId="Gas" name="tallyType" value="Gas" />
+                <RadioButton v-model="meterType" inputId="Gas" name="tallyType" value="Gas" />
                 <label for="Gas" class="ml-2">Gas</label>
             </div>
 
             <div class="radio-item">
-                <RadioButton v-model="tallyType" inputId="Wasser" name="tallyType" value="Wasser" />
+                <RadioButton v-model="meterType" inputId="Wasser" name="tallyType" value="Wasser" />
                 <label for="Wasser" class="ml-2">Wasser</label>
             </div>
 
             <div class="radio-item">
                 <RadioButton
-                    v-model="tallyType"
+                    v-model="meterType"
                     inputId="Heizung"
                     name="tallyType"
                     value="Heizung"
@@ -55,7 +55,7 @@
 
             <div class="radio-item">
                 <RadioButton
-                    v-model="tallyType"
+                    v-model="meterType"
                     inputId="Sonstiges"
                     name="tallyType"
                     value="Sonstiges"
@@ -65,12 +65,16 @@
         </div>
 
         <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
-        <Button label="Zähler hinzufügen" />
-        {{ tallyId }}
-        {{ name }}
-        {{ value }}
-        {{ date }}
-        {{ tallyType }}
+        <Button label="Zähler hinzufügen" @click="AddMeter" />
+
+
+        <div v-for="(meter, index) in meters" :key="index">
+            <h3>Zähler {{ meter.meterName }}</h3>
+            <p>Zählertyp: {{ meter.type }}</p>
+            <p>Ablesewert: {{ meter.readingCount }}</p>
+            <p>Ablesedatum: {{ meter.date }}</p>
+            <p>Abgelesen von: {{ meter.readerName }}</p>
+        </div>
     </div>
 </template>
 
@@ -82,23 +86,42 @@ import DatePicker from "primevue/datepicker";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import { ref } from "vue";
+import { Meter } from "../types";
 
-const tallyId = ref("");
-const value = ref(null);
-const name = ref("");
-const date = ref("");
-const tallyType = ref("");
-
+//Max Date for Datepicker
 const today = new Date();
 const maxDate = today.toISOString().split("T")[0];
 const maxDateFormatted = maxDate.split("-").reverse().join(".");
 
+//Variables Form input
+const meterName = ref("");
+const readerName = ref("");
+const readingCount = ref(null);
+const date = ref(new Date());
+const meterType = ref("");
+
 function resetForm() {
-    tallyId.value = "";
-    name.value = "";
-    value.value = null;
-    date.value = "";
-    tallyType.value = "";
+    meterName.value = "";
+    readerName.value = "";
+    readingCount.value = null;
+    date.value = new Date();
+    meterType.value = "";
+}
+
+//Arry for Meters added
+const meters = ref<Meter[]>([]);
+
+//Add Meter
+function AddMeter() {
+    const newMeter = {
+        meterName: meterName.value,
+        readerName: readerName.value,
+        readingCount: readingCount.value,
+        date: date.value,
+        type: meterType.value,
+    };
+    meters.value.push(newMeter);
+    resetForm();
 }
 </script>
 
