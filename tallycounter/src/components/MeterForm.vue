@@ -1,32 +1,13 @@
 <template>
     <div class="MeterForm">
-        <FloatLabel>
-            <label for="name">Vorname, Nachname</label>
-            <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
-        </FloatLabel>
+
+        <!-- -------------------Zähler------------------- -->
+        <h1>Zähler hinzufügen</h1>
 
         <FloatLabel>
             <label for="nummer">meterName</label>
             <InputMask id="tallyId" v-model="meterName" mask="99999999" placeholder="12345678" />
         </FloatLabel>
-
-        <FloatLabel>
-            <label for="Wert">Wert</label>
-            <InputMask id="value" v-model="readingCount" mask="99999.999" placeholder="12456.789" />
-        </FloatLabel>
-
-        <DatePicker
-            v-model="date"
-            id="date"
-            type="date"
-            showIcon
-            fluid
-            :showOnFocus="false"
-            :max="maxDate"
-            dateFormat="dd.mm.yy"
-            :placeholder="maxDateFormatted"
-        />
-        <!-- generieren? -->
         <div style="display: flex; flex-direction: column; width: 100%">
             <div class="radio-item">
                 <RadioButton v-model="meterType" inputId="Strom" name="tallyType" value="Strom" />
@@ -63,10 +44,44 @@
                 <label for="Sonstiges" class="ml-2">Sonstiges</label>
             </div>
         </div>
+        <Button label="Zählerstand hinzufügen" @click="EmitNewMeter" />
+
+
+<!-- -------------------Zählerstand------------------- -->
+
+        <h1>Zählerstand hinzufügen</h1>
+
+        <p>Für welchen Zähler?</p>
+        <Select
+            v-model="selectedView"
+            :options="viewOptions"
+            placeholder="Ansicht auswählen"
+            class="w-full md:w-56"
+        />
+        <FloatLabel>
+            <label for="name">Vorname, Nachname</label>
+            <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
+        </FloatLabel>
+        <FloatLabel>
+            <label for="Wert">Wert</label>
+            <InputMask id="value" v-model="readingCount" mask="99999.999" placeholder="12456.789" />
+        </FloatLabel>
+
+        <DatePicker
+            v-model="date"
+            id="date"
+            type="date"
+            showIcon
+            fluid
+            :showOnFocus="false"
+            :max="maxDate"
+            dateFormat="dd.mm.yy"
+            :placeholder="maxDateFormatted"
+        />
+        <!-- generieren? -->
 
         <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
-        <Button label="Zähler hinzufügen" @click="EmitNewMeter" />
-
+        <Button label="Zählerstand hinzufügen" @click="EmitNewMeter" />
 
         <!-- <div v-for="(meter, index) in meters" :key="index">
             <h3>Zählernummer: {{ meter.meterName }}</h3>
@@ -87,6 +102,7 @@ import InputMask from "primevue/inputmask";
 import DatePicker from "primevue/datepicker";
 import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
+import Select from "primevue/select";
 import { ref } from "vue";
 
 //Max Date for Datepicker
@@ -101,6 +117,10 @@ const readingCount = ref(null);
 const date = ref(new Date());
 const meterType = ref("");
 
+//Variables Select
+const viewOptions = ["CoolerZähler", "UncoolerZähler", "RichtigCoolerZähler"];
+const selectedView = ref("");
+
 const emit = defineEmits(["add-meter"]);
 
 function resetForm() {
@@ -112,12 +132,11 @@ function resetForm() {
 }
 
 function formatDate(date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0'); // adds extra 0 if string.length is < 2 digits
-  const month = String(date.getMonth() + 1).padStart(2, '0'); 
-  const year = date.getFullYear(); 
-  return `${day}.${month}.${year}`; // format to dd.mm.yyyy
+    const day = String(date.getDate()).padStart(2, "0"); // adds extra 0 if string.length is < 2 digits
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`; // format to dd.mm.yyyy
 }
-
 
 function EmitNewMeter() {
     const formattedDate = formatDate(date.value);
@@ -125,7 +144,7 @@ function EmitNewMeter() {
         meterName: meterName.value,
         type: meterType.value,
         readings: [
-            {   
+            {
                 readerName: readerName.value,
                 value: readingCount.value,
                 date: formattedDate,
@@ -133,7 +152,7 @@ function EmitNewMeter() {
         ],
     };
     // meters.value.push(newMeter);
-    emit("add-meter", newMeter)
+    emit("add-meter", newMeter);
     resetForm();
 }
 </script>
