@@ -120,12 +120,11 @@ watch(
     (newMeterEdit) => {
         if (newMeterEdit) {
             isVisible.value = true;
-            meterToEdit.value = newMeterEdit;
+            meterToEdit.value = { ...newMeterEdit }; //creates copy
             if (meterStore.isEditingReading && meterStore.readingToEdit) {
                 //for editing readings
-                readingToEdit.value = meterStore.readingToEdit;
+                readingToEdit.value = {...meterStore.readingToEdit};
                 isEditingReading.value = true;
-                console.log("hallo", meterStore.isEditingReading, readingToEdit.value);
             }
         }
     }

@@ -23,6 +23,7 @@ Ablesewert
 */
 
 export interface Meter {
+    
     meterName: string;
     type: string;
     readings: MeterReading[];
