@@ -28,6 +28,18 @@
                     <p>Abgelesen von: {{ reading.readerName }}</p>
                     <p>Wert: {{ reading.value }}</p>
                     <p>Datum: {{ reading.date }}</p>
+                    <Button
+                    label="Zählerstand Löschen"
+                    @click="deleteMeter(meter.meterName)"
+                    icon="pi pi-trash"
+                    class="p-button-danger"
+                />
+                <Button
+                    label="Zählerstand Bearbeiten"
+                    @click="editMeter(meter)"
+                    icon="pi pi-pen-to-square"
+                    class="p-button-warning"
+                />
                 </div>
             </div>
         </div>
@@ -43,6 +55,7 @@
                 <p>Zählerart: {{ meter.type }}</p>
             </div>
         </div>
+        <EditModal />
     </div>
 </template>
 
@@ -54,6 +67,7 @@ import Button from "primevue/button";
 import "primeicons/primeicons.css";
 import { useMeterStore } from "../stores/useMeterStore";
 import { Meter } from "../types.ts";
+import EditModal from "./EditModal.vue";
 
 const meterStore = useMeterStore();
 
@@ -61,7 +75,7 @@ const viewOptions = ["Normale Ansicht", "Zähleransicht", "Zähleransicht mit Z�
 const selectedView = ref("Normale Ansicht");
 
 function editMeter(meter: Meter) {
-    console.log("Edit Meter", meter);
+    meterStore.openModal(meter);
 }
 
 function deleteMeter(meterName: string) {

@@ -57,7 +57,7 @@
             class="w-full md:w-56"
         />
         <FloatLabel>
-            <label for="name">Vorname, Nachname</label>
+            <label for="name">Vorname Nachname</label>
             <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
         </FloatLabel>
         <FloatLabel>

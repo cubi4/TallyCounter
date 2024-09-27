@@ -5,7 +5,7 @@ import { Meter, MeterReading } from "../types";
 
 export const useMeterStore = defineStore("meterStore", () => {
     const meters = ref<Meter[]>([]);
-
+    const meterToEdit = ref<Meter | null>(null);
     // Getter
     const getAllMeters = () => meters.value;
 
@@ -21,6 +21,19 @@ export const useMeterStore = defineStore("meterStore", () => {
         }
     }
 
+    function openModal(meter: Meter) {
+        meterToEdit.value = meter;
+    }
+
+    function closeModal() {
+        meterToEdit.value = null;
+    }
+
+    function saveChanges(meter: Meter) {
+        const index = meters.value.findIndex((m) => m.meterName === meter.meterName);
+        meters.value[index] = meter;
+        meterToEdit.value = null;
+    }
 
     function removeMeter(meterName: string) {
         meters.value = meters.value.filter((m) => m.meterName !== meterName);
@@ -32,9 +45,13 @@ export const useMeterStore = defineStore("meterStore", () => {
 
     return {
         meters,
+        meterToEdit,
         getAllMeters,
         addMeter,
         addMeterReading,
+        openModal,
+        closeModal,
+        saveChanges,
         removeMeter,
         clearMeters,
     };
