@@ -12,7 +12,7 @@
                 <RadioButton v-model="meterType" inputId="Strom" name="tallyType" value="Strom" />
                 <label for="Strom" class="ml-2">Strom</label>
             </div>
-
+            <!-- generieren? -->
             <div class="radio-item">
                 <RadioButton v-model="meterType" inputId="Gas" name="tallyType" value="Gas" />
                 <label for="Gas" class="ml-2">Gas</label>
@@ -76,7 +76,6 @@
             dateFormat="dd.mm.yy"
             :placeholder="maxDateFormatted"
         />
-        <!-- generieren? -->
         <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
         <Button label="Zählerstand hinzufügen" @click="addMeterReadingToStore" icon="pi pi-plus" />
     </div>

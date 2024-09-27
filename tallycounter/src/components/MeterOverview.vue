@@ -29,17 +29,17 @@
                     <p>Wert: {{ reading.value }}</p>
                     <p>Datum: {{ reading.date }}</p>
                     <Button
-                    label="Zählerstand Löschen"
-                    @click="reading.value !== null && deleteMeterReading(meter, reading.value)"
-                    icon="pi pi-trash"
-                    class="p-button-danger"
-                />
-                <Button
-                    label="Zählerstand Bearbeiten"
-                    @click="editMeter(meter)"
-                    icon="pi pi-pen-to-square"
-                    class="p-button-warning"
-                />
+                        label="Zählerstand Löschen"
+                        @click="deleteMeterReading(meter, reading)"
+                        icon="pi pi-trash"
+                        class="p-button-danger"
+                    />
+                    <Button
+                        label="Zählerstand Bearbeiten"
+                        @click="editMeterReading(meter, reading)"
+                        icon="pi pi-pen-to-square"
+                        class="p-button-warning"
+                    />
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@ import Select from "primevue/select";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
 import { useMeterStore } from "../stores/useMeterStore";
-import { Meter } from "../types.ts";
+import { Meter, MeterReading } from "../types.ts";
 import EditModal from "./EditModal.vue";
 
 const meterStore = useMeterStore();
@@ -84,13 +84,17 @@ function deleteMeter(meterName: string) {
     }
 }
 
-function editMeterReading(meter: Meter) {
-    meterStore.openModalAsMeter(meter);
+function editMeterReading(meter: Meter, meterReading: MeterReading) {
+    meterStore.openModalAsReading(meter, meterReading);
 }
 
-function deleteMeterReading(meter: Meter, value: number) {
-    if (confirm(`Bist du sicher, dass du den Zählerstand ${value} vom Zähler ${meter.meterName} löschen möchtest?`)) {
-        meterStore.removeMeterReading(meter, value);
+function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
+    if (
+        confirm(
+            `Bist du sicher, dass du den Zählerstand ${meterReading.value} vom Zähler ${meter.meterName} löschen möchtest?`
+        )
+    ) {
+        meterStore.removeMeterReading(meter, meterReading);
     }
 }
 </script>
