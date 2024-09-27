@@ -8,6 +8,7 @@ export const useMeterStore = defineStore("meterStore", () => {
     const meterToEdit = ref<Meter | null>(null);
     const readingToEdit = ref<MeterReading | null>(null);
     const isEditingReading = ref(false);
+
     // Getter
     const getAllMeters = () => meters.value;
 
@@ -17,7 +18,7 @@ export const useMeterStore = defineStore("meterStore", () => {
     }
 
     function addMeterReading(meterName: string, newReading: MeterReading) {
-        const meter = meters.value.find((m) => m.meterName === meterName);
+        const meter = meters.value.find((m) => m.meterName === meterName); //name is unique, prevented dulpicate names in meterform
         if (meter) {
             meter.readings.push(newReading);
         }
@@ -41,13 +42,8 @@ export const useMeterStore = defineStore("meterStore", () => {
     }
 
     function saveChangesReading(meter: Meter, reading: MeterReading) {
-        const index = meters.value.findIndex((m) => m.meterName === meter.meterName);
-        const readingIndex = meters.value[index].readings.findIndex(
-            (r) =>
-                r.value === reading.value &&
-                r.date === reading.date &&
-                r.readerName === reading.readerName
-        );
+        const index = meters.value.findIndex((m) => m.id === meter.id);
+        const readingIndex = meters.value[index].readings.findIndex((r) => r.id === reading.id);
         meters.value[index].readings[readingIndex] = reading;
         meterToEdit.value = null;
         readingToEdit.value = null;
@@ -55,19 +51,19 @@ export const useMeterStore = defineStore("meterStore", () => {
     }
 
     function saveChangesMeter(meter: Meter) {
-        const index = meters.value.findIndex((m) => m.meterName === meter.meterName);
+        const index = meters.value.findIndex((m) => m.id === meter.id);
         meters.value[index] = meter;
         meterToEdit.value = null;
     }
 
-    function removeMeter(meterName: string) {
-        meters.value = meters.value.filter((m) => m.meterName !== meterName);
+    function removeMeter(meter: Meter) {
+        meters.value = meters.value.filter((m) => m.id !== meter.id);
     }
 
     function removeMeterReading(meter: Meter, meterReading: MeterReading) {
-        const index = meters.value.findIndex((m) => m.meterName === meter.meterName);
+        const index = meters.value.findIndex((m) => m.id === meter.id);
         meters.value[index].readings = meters.value[index].readings.filter(
-            (r) => r.value !== meterReading.value
+            (r) => r.id !== meterReading.id
         );
     }
 

@@ -2,7 +2,7 @@
     <div class="MeterForm">
         <!-- -------------------Zähler------------------- -->
         <h1>Zähler hinzufügen</h1>
-
+        <input />
         <FloatLabel>
             <label for="nummer">meterName</label>
             <InputMask id="tallyId" v-model="meterName" mask="99999999" placeholder="12345678" />
@@ -58,7 +58,7 @@
         />
         <FloatLabel>
             <label for="name">Vorname Nachname</label>
-            <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann" />
+            <InputText type="text" id="name" v-model="readerName" placeholder="Max Mustermann"  />
         </FloatLabel>
         <FloatLabel>
             <label for="Wert">Wert</label>
@@ -91,6 +91,8 @@ import Button from "primevue/button";
 import Select from "primevue/select";
 import { ref, computed } from "vue";
 import { useMeterStore } from "../stores/useMeterStore";
+import { v4 as uuidv4 } from "uuid";
+
 
 const meterStore = useMeterStore();
 
@@ -134,11 +136,15 @@ function addMeterToStore() {
     }
 
     const newMeter = {
+        id: uuidv4(), //create random ID
         meterName: meterName.value,
         type: meterType.value,
         readings: [],
     };
-
+    if(meterStore.meters.find((meter) => meter.meterName === newMeter.meterName)){
+        alert("Zählername existiert bereits, bitte geben Sie dem Zähler einen anderen Namen.");
+        return;
+    }
     meterStore.addMeter(newMeter);
 
     resetForm();
@@ -154,11 +160,11 @@ function addMeterReadingToStore() {
         return;
     }
     const newReading = {
+        id: uuidv4(),
         readerName: readerName.value,
         value: readingCount.value,
-        date: date.value,
+        date: formatDate(date.value),
     };
-
     meterStore.addMeterReading(selectedMeter.value, newReading);
     resetForm();
 }

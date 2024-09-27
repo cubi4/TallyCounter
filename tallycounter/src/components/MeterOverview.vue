@@ -8,13 +8,13 @@
             placeholder="Ansicht auswählen"
             class="w-full md:w-56"
         />
-        <div class="overview-list" v-if="selectedView === 'Normale Ansicht'">
+        <div class="overview-list" v-if="selectedView === 'Zähleransicht mit Zählerstand'">
             <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
                 <h3>Zählernummer: {{ meter.meterName }}</h3>
                 <p>Zählerart: {{ meter.type }}</p>
                 <Button
                     label="Löschen"
-                    @click="deleteMeter(meter.meterName)"
+                    @click="deleteMeter(meter)"
                     icon="pi pi-trash"
                     class="p-button-danger"
                 />
@@ -49,7 +49,7 @@
                 <p>Zählerart: {{ meter.type }}</p>
             </div>
         </div>
-        <div v-if="selectedView === 'Zähleransicht mit Zählerstand'">
+        <div v-if="selectedView === 'Zuletzt hinzugefügt'">
             <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
                 <h3>Zählernummer: {{ meter.meterName }}</h3>
                 <p>Zählerart: {{ meter.type }}</p>
@@ -71,16 +71,16 @@ import EditModal from "./EditModal.vue";
 
 const meterStore = useMeterStore();
 
-const viewOptions = ["Normale Ansicht", "Zähleransicht", "Zähleransicht mit Zählerstand"];
-const selectedView = ref("Normale Ansicht");
+const viewOptions = ["Zuletzt hinzugefügt", "Zähleransicht", "Zähleransicht mit Zählerstand"];
+const selectedView = ref("Zuletzt hinzugefügt");
 
 function editMeter(meter: Meter) {
     meterStore.openModalAsMeter(meter);
 }
 
-function deleteMeter(meterName: string) {
-    if (confirm(`Bist du sicher, dass du den Zähler ${meterName} löschen möchtest?`)) {
-        meterStore.removeMeter(meterName);
+function deleteMeter(meter: Meter) {
+    if (confirm(`Bist du sicher, dass du den Zähler ${meter.meterName} löschen möchtest?`)) {
+        meterStore.removeMeter(meter);
     }
 }
 
@@ -96,6 +96,11 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
     ) {
         meterStore.removeMeterReading(meter, meterReading);
     }
+}
+
+
+function getLastAdded() {
+    const lastAdded = meterStore.meters.map((meter) => meter.readings[meter.readings.length - 1]);
 }
 </script>
 

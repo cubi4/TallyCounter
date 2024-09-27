@@ -23,15 +23,16 @@ Ablesewert
 */
 
 export interface Meter {
-    
+    id: any;
     meterName: string;
     type: string;
     readings: MeterReading[];
 }
 
 export interface MeterReading {
+    id: any;
     readerName: string;
-    date: Date; // dd.mm.yyyy
+    date: string; // dd.mm.yyyy
     value: number | null;
     // photoUrl?: string; // Optionales Feld für das Foto
 }
