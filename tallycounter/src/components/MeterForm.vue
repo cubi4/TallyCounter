@@ -129,6 +129,11 @@ function formatDate(date: Date): string {
 }
 
 function addMeterToStore() {
+    if (!meterName.value || !meterType.value) {
+        alert("Bitte füllen Sie alle Zählerdaten aus.");
+        return;
+    }
+
     const newMeter = {
         meterName: meterName.value,
         type: meterType.value,
@@ -145,7 +150,10 @@ function addMeterReadingToStore() {
         alert("Bitte wählen Sie einen Zähler aus");
         return;
     }
-
+    if (!readerName.value || !readingCount.value || !date.value) {
+        alert("Bitte füllen Sie alle Felder für den Zählerstand aus.");
+        return;
+    }
     const newReading = {
         readerName: readerName.value,
         value: readingCount.value,
