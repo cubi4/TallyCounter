@@ -30,7 +30,7 @@
                     <p>Datum: {{ reading.date }}</p>
                     <Button
                     label="Zählerstand Löschen"
-                    @click="deleteMeter(meter.meterName)"
+                    @click="reading.value !== null && deleteMeterReading(meter, reading.value)"
                     icon="pi pi-trash"
                     class="p-button-danger"
                 />
@@ -75,12 +75,22 @@ const viewOptions = ["Normale Ansicht", "Zähleransicht", "Zähleransicht mit Z�
 const selectedView = ref("Normale Ansicht");
 
 function editMeter(meter: Meter) {
-    meterStore.openModal(meter);
+    meterStore.openModalAsMeter(meter);
 }
 
 function deleteMeter(meterName: string) {
     if (confirm(`Bist du sicher, dass du den Zähler ${meterName} löschen möchtest?`)) {
-        meterStore.removeMeter(meterName); // Ruft die Löschfunktion im Store auf
+        meterStore.removeMeter(meterName);
+    }
+}
+
+function editMeterReading(meter: Meter) {
+    meterStore.openModalAsMeter(meter);
+}
+
+function deleteMeterReading(meter: Meter, value: number) {
+    if (confirm(`Bist du sicher, dass du den Zählerstand ${value} vom Zähler ${meter.meterName} löschen möchtest?`)) {
+        meterStore.removeMeterReading(meter, value);
     }
 }
 </script>

@@ -21,11 +21,11 @@ export const useMeterStore = defineStore("meterStore", () => {
         }
     }
 
-    function openModal(meter: Meter) {
+    function openModalAsMeter(meter: Meter) {
         meterToEdit.value = meter;
     }
 
-    function closeModal() {
+    function closeModalAsMeter() {
         meterToEdit.value = null;
     }
 
@@ -39,6 +39,11 @@ export const useMeterStore = defineStore("meterStore", () => {
         meters.value = meters.value.filter((m) => m.meterName !== meterName);
     }
 
+    function removeMeterReading(meter: Meter, value: number) {
+        const index = meters.value.findIndex((m) => m.meterName === meter.meterName);
+        meters.value[index].readings = meters.value[index].readings.filter((i) => i.value !== value);
+    }
+
     function clearMeters() {
         meters.value = [];
     }
@@ -49,9 +54,10 @@ export const useMeterStore = defineStore("meterStore", () => {
         getAllMeters,
         addMeter,
         addMeterReading,
-        openModal,
-        closeModal,
+        openModalAsMeter,
+        closeModalAsMeter,
         saveChanges,
+        removeMeterReading,
         removeMeter,
         clearMeters,
     };

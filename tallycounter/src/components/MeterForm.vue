@@ -43,7 +43,7 @@
                 <label for="Sonstiges" class="ml-2">Sonstiges</label>
             </div>
         </div>
-        <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus"/>
+        <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
 
         <!-- -------------------Zählerstand------------------- -->
 
@@ -77,18 +77,8 @@
             :placeholder="maxDateFormatted"
         />
         <!-- generieren? -->
-        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary"/>
-        <Button label="Zählerstand hinzufügen" @click="addMeterReadingToStore" icon="pi pi-plus"/>
-
-        <!-- <div v-for="(meter, index) in meters" :key="index">
-            <h3>Zählernummer: {{ meter.meterName }}</h3>
-            <p>Zählerart: {{ meter.type }}</p>
-            <div v-for="(reading, rIndex) in meter.readings" :key="rIndex">
-                <p>Abgelesen von: {{ reading.readerName }}</p>
-                <p>Wert: {{ reading.value }}</p>
-                <p>Datum: {{ reading.date }}</p>
-            </div>
-        </div> -->
+        <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
+        <Button label="Zählerstand hinzufügen" @click="addMeterReadingToStore" icon="pi pi-plus" />
     </div>
 </template>
 

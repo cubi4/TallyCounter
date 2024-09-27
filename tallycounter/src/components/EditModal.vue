@@ -76,7 +76,7 @@ import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 
 
-// Pinia Store verwenden
+
 const meterStore = useMeterStore();
 
 const isVisible = ref(false);
@@ -94,7 +94,7 @@ watch(
 
 function cancelChanges() {
     isVisible.value = false;
-    meterStore.closeModal();
+    meterStore.closeModalAsMeter();
 }
 
 function saveChanges() {

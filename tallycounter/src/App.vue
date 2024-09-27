@@ -27,6 +27,6 @@ import MeterForm from "./components/MeterForm.vue";
 }
 
 .MeterForm {
-    flex: 2;
+    flex: 1;
 }
 </style>
