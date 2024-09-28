@@ -6,6 +6,8 @@
         :closable="false"
         :style="{ width: '30rem' }"
     >
+        <!---------------- Meter edit ---------------->
+
         <template v-if="!isEditingReading" class="MeterModal">
             <div class="input-group">
                 <label for="nummer">Zählernummer: </label>
@@ -82,7 +84,7 @@
                 />
             </div>
         </template>
-        <!-- Zählerstand bearbeiten -->
+        <!---------------- MeterReading edit ---------------->
         <template class="meterReadingModal" v-else>
             <h3>Zähler: {{ meterToEdit.meterName }}</h3>
             <div class="input-group">
@@ -131,25 +133,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useMeterStore } from "../stores/useMeterStore";
-import { Meter, MeterReading } from "../types.ts";
 import InputText from "primevue/inputtext";
 import InputMask from "primevue/inputmask";
 import RadioButton from "primevue/radiobutton";
 import DatePicker from "primevue/datepicker";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
+import { ref, watch } from "vue";
+import { useMeterStore } from "../stores/useMeterStore";
+import { Meter, MeterReading } from "../types.ts";
+
 
 const meterStore = useMeterStore();
 
+// initialize variables to Open and Edit
 const isVisible = ref(false);
+const isEditingReading = ref(false);
 const meterToEdit = ref<Meter>({} as Meter);
 const readingToEdit = ref<MeterReading>({} as MeterReading);
-const isEditingReading = ref(false);
+
+//Datepicker
 const dateTemp = ref(new Date());
 const MaxDate = new Date();
 
+// if "meterToEdit" changes, open modal (user pressed EditButton)
 watch(
     () => meterStore.meterToEdit,
     (newMeterEdit) => {
@@ -193,8 +200,10 @@ function saveChangesReading() {
         alert("Bitte geben Sie einen gültigen Vor- und Nachnamen ein (max 1 Leerzeichen).");
         return;
     }
+    //format name and date
     readingToEdit.value.readerName = meterStore.formatName(readingToEdit.value.readerName);
     readingToEdit.value.date = meterStore.formatDate(dateTemp.value);
+
     meterStore.saveChangesReading(meterToEdit.value, readingToEdit.value);
     isEditingReading.value = false;
     isVisible.value = false;

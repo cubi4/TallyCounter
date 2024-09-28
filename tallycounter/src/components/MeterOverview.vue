@@ -111,7 +111,7 @@ import EditModal from "./EditModal.vue";
 
 const meterStore = useMeterStore();
 
-const viewOptions = ["Zähleransicht", "Zähleransicht mit Zählerstand"];
+const viewOptions = ["Zähleransicht mit Zählerstand", "Zähleransicht"];
 const selectedView = ref("Zähleransicht mit Zählerstand");
 
 const expandedMeters = ref<boolean[]>([]);
@@ -159,7 +159,7 @@ function toggleReadings(index: number) {
 </script>
 
 <style scoped>
-/* ---------Allgemein--------- */
+/* ---------General--------- */
 
 .headerContainer {
     display: flex;
@@ -180,7 +180,7 @@ function toggleReadings(index: number) {
     border-radius: 5px;
 }
 
-/* ---------Zähler-Darstellung--------- */
+/* ---------Meter-Representation--------- */
 .meterOverview {
     display: flex;
     align-items: center;
@@ -196,7 +196,7 @@ function toggleReadings(index: number) {
     padding: 0rem 1rem;
 }
 
-/* ---------Zählerstand-Darstellung--------- */
+/* ---------MeterReading-Representation--------- */
 .meterReadingsOverview {
     display: flex;
     align-items: center;

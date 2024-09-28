@@ -34,19 +34,9 @@ export interface MeterReading {
     readerName: string;
     date: string; // dd.mm.yyyy
     value: number;
-    // photoUrl?: string; // Optionales Feld für das Foto
+    // photoUrl?: string; // Optionales Feld für Foto
 }
 
-// export type MeterType = "Strom" | "Gas" | "Wasser" | "Heizung" | "Sonstiges";
-
-
-// export interface Meter {
-//     meterName: string;
-//     type: string;
-//     readingCount: number | null;
-//     date: Date;
-//     readerName: string;
-// }
 
 
 

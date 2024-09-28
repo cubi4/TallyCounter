@@ -1,6 +1,6 @@
 <template>
     <div class="MeterForm">
-        <!-----------------------------Zähler----------------------------->
+        <!-----------------------------Meter----------------------------->
         <div class="meterWrapper">
             <h1 class="header">Zähler hinzufügen</h1>
             <div class="inputGroup">
@@ -62,7 +62,7 @@
             </div>
             <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
         </div>
-        <!-----------------------------Zählerstand----------------------------->
+        <!-----------------------------MeterReading----------------------------->
         <h1 class="header">Zählerstand hinzufügen</h1>
         <div class="readingsWrapper">
             <div class="">
@@ -110,7 +110,6 @@
                 dateFormat="dd.mm.yy"
                 class="inputField inputFieldAndLabel"
             />
-            <!-- <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" /> -->
             <Button
                 label="Zählerstand hinzufügen"
                 @click="addMeterReadingToStore"
@@ -151,6 +150,8 @@ const meterOptions = computed(() => {
     return meterStore.meters.map((meter) => meter.meterName);
 });
 
+// ------------------Functions------------------
+
 function resetForm() {
     meterName.value = "";
     readerName.value = "";
@@ -165,16 +166,17 @@ function addMeterToStore() {
         return;
     }
 
+    if (meterStore.meters.find((meter) => meter.meterName === newMeter.meterName)) {
+        alert("Zählername existiert bereits, bitte geben Sie dem Zähler einen anderen Namen.");
+        return;
+    }
+
     const newMeter = {
         id: uuidv4(), //create random ID
         meterName: meterName.value,
         type: meterType.value,
         readings: [],
     };
-    if (meterStore.meters.find((meter) => meter.meterName === newMeter.meterName)) {
-        alert("Zählername existiert bereits, bitte geben Sie dem Zähler einen anderen Namen.");
-        return;
-    }
     meterStore.addMeter(newMeter);
 
     resetForm();
