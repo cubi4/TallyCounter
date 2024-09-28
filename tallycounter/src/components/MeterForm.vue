@@ -63,8 +63,8 @@
             <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
         </div>
         <!-- -------------------Zählerstand------------------- -->
+        <h1 class="header">Zählerstand hinzufügen</h1>
         <div class="readingsWrapper">
-            <h1>Zählerstand hinzufügen</h1>
             <div class="">
                 <p>Für welchen Zähler?</p>
                 <Select
@@ -111,7 +111,7 @@
                 class="inputField inputDate inputFieldAndLabel"
             />
             <div class="flexButtons">
-                <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
+                <!-- <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" /> -->
                 <Button
                     label="Zählerstand hinzufügen"
                     @click="addMeterReadingToStore"
@@ -212,7 +212,7 @@ function addMeterReadingToStore() {
     display: flex;
     flex-direction: column;
     margin: 10px 0;
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 .meterWrapper {
     display: flex;
@@ -250,10 +250,7 @@ function addMeterReadingToStore() {
     width: 100%;
 }
 
-.flexButtons {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
+.flexButtons {    
     padding-bottom: 1rem;
 }
 

@@ -113,7 +113,11 @@ function editMeter(meter: Meter) {
 }
 
 function deleteMeter(meter: Meter) {
-    if (confirm(`Bist du sicher, dass du den Zähler ${meter.meterName} löschen möchtest?`)) {
+    if (
+        confirm(
+            `Bist du sicher, dass du den Zähler ${meter.meterName} löschen möchtest? Alle Zählerstände dieses Zählers werden ebenfalls gelöscht.`
+        )
+    ) {
         meterStore.removeMeter(meter);
     }
 }

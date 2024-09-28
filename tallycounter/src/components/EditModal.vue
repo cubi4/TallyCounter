@@ -189,6 +189,10 @@ function saveChangesReading() {
         alert("Bitte füllen Sie alle Zählerdaten aus.");
         return;
     }
+    if (!meterStore.isValidName(readingToEdit.value.readerName)) {
+        alert("Bitte geben Sie einen gültigen Vor- und Nachnamen ein (max 1 Leerzeichen).");
+        return;
+    }
     readingToEdit.value.readerName = meterStore.formatName(readingToEdit.value.readerName);
     readingToEdit.value.date = meterStore.formatDate(dateTemp.value);
     meterStore.saveChangesReading(meterToEdit.value, readingToEdit.value);
