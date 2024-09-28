@@ -38,9 +38,15 @@
                         class="reading-item"
                     >
                         <div class="meterReadingsOverview">
-                            <p>Abgelesen von: <b>{{ reading.readerName }}</b></p>
-                            <p>Wert: <b>{{ reading.value }}</b></p>
-                            <p>Datum: <b>{{ reading.date }}</b></p>
+                            <p>
+                                Abgelesen von: <b>{{ reading.readerName }}</b>
+                            </p>
+                            <p>
+                                Wert: <b>{{ reading.value }}</b>
+                            </p>
+                            <p>
+                                Datum: <b>{{ reading.date }}</b>
+                            </p>
                         </div>
                         <div class="button-container">
                             <Button
@@ -59,13 +65,30 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-if="selectedView === 'Zähleransicht'">
-            <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
-                <h3>Zählernummer: {{ meter.meterName }}</h3>
-                <p>Zählerart: {{ meter.type }}</p>
+            <div v-if="selectedView === 'Zähleransicht'">
+                <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
+                    <div class="meterOverview">
+                        <h3>Zählernummer: {{ meter.meterName }}</h3>
+                        <p>Zählerart: {{ meter.type }}</p>
+                    </div>
+                    <div class="button-container">
+                        <Button
+                            label="Löschen"
+                            @click="deleteMeter(meter)"
+                            icon="pi pi-trash"
+                            class="p-button-danger"
+                        />
+                        <Button
+                            label="Bearbeiten"
+                            @click="editMeter(meter)"
+                            icon="pi pi-pen-to-square"
+                            class="p-button-warning"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
+
         <EditModal />
     </div>
 </template>
@@ -108,7 +131,6 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
         meterStore.removeMeterReading(meter, meterReading);
     }
 }
-
 </script>
 
 <style scoped>
@@ -117,7 +139,7 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
 } */
 .overview-item {
     flex-direction: column;
-    background-color: #374151;
+    background-color: #595673;
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
@@ -125,8 +147,8 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
 
 .overview-list-container {
     width: 100%;
-    max-height: 70vh; 
-    overflow-y: auto; 
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
 /* ---------Zähler-Darstellung--------- */
@@ -147,7 +169,7 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
 
 /* ---------Zählerstand-Darstellung--------- */
 .reading-item {
-    background-color: #4b5563;
+    background-color: #b4b3c6;
     margin-top: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -162,14 +184,14 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
     padding: 1rem;
 }
 .meterReadingsOverview p {
-    text-align: left; 
+    text-align: left;
 }
 .meterReadingsOverview p:first-child {
-    flex: 3; 
+    flex: 3;
 }
 .meterReadingsOverview p:nth-child(2),
 .meterReadingsOverview p:nth-child(3) {
-    flex: 2; 
+    flex: 2;
 }
 
 .headerContainer {

@@ -189,6 +189,7 @@ function saveChangesReading() {
         alert("Bitte füllen Sie alle Zählerdaten aus.");
         return;
     }
+    readingToEdit.value.readerName = meterStore.formatName(readingToEdit.value.readerName);
     readingToEdit.value.date = meterStore.formatDate(dateTemp.value);
     meterStore.saveChangesReading(meterToEdit.value, readingToEdit.value);
     isEditingReading.value = false;

@@ -72,6 +72,7 @@
                     :options="meterOptions"
                     placeholder="Zähler auswählen"
                     class="inputField"
+                    :emptyMessage="'Kein Zähler in der Liste eingetragen'"
                     :invalid="!selectedMeter"
                 />
             </div>
@@ -159,14 +160,6 @@ function resetForm() {
     meterType.value = "";
 }
 
-function formatDate(date: Date): string {
-    const day = String(date.getDate()).padStart(2, "0"); // adds extra 0 if string.length is < 2 digits
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`; // format to dd.mm.yyyy
-}
-
-
 function addMeterToStore() {
     if (!meterName.value || !meterType.value) {
         alert("Bitte füllen Sie alle Zählerdaten aus.");
@@ -204,9 +197,9 @@ function addMeterReadingToStore() {
     }
     const newReading = {
         id: uuidv4(),
-        readerName: readerName.value,
+        readerName: meterStore.formatName(readerName.value),
         value: readingCount.value,
-        date: formatDate(date.value),
+        date: meterStore.formatDate(date.value),
     };
     meterStore.addMeterReading(selectedMeter.value, newReading);
     resetForm();
@@ -218,6 +211,7 @@ function addMeterReadingToStore() {
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin: 10px 0;
     gap: 1rem;
 }
 .meterWrapper {

@@ -12,8 +12,6 @@ import MeterForm from "./components/MeterForm.vue";
 
 <style>
 * {
-    /* color: black; */
-    /* background-color: #ffffff; */
     font-family: sans-serif;
 }
 

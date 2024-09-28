@@ -19,6 +19,13 @@ export const useMeterStore = defineStore("meterStore", () => {
         return `${day}.${month}.${year}`; // format to dd.mm.yyyy
     }
 
+    function formatName(name: string): string {
+        return name
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
     // methods
     function addMeter(newMeter: Meter) {
         meters.value.push(newMeter);
@@ -86,6 +93,7 @@ export const useMeterStore = defineStore("meterStore", () => {
         isEditingReading,
         getAllMeters,
         formatDate,
+        formatName,
         addMeter,
         addMeterReading,
         openModalAsMeter,
