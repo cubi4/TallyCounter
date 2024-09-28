@@ -32,7 +32,13 @@
                             class="p-button-warning"
                         />
                     </div>
+                    <Button
+                        @click="toggleReadings(index)"
+                        :icon="expandedMeters[index] ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+                        class="p-button-text"
+                    />
                     <div
+                        v-if="expandedMeters[index]"
                         v-for="(reading, rIndex) in meter.readings"
                         :key="rIndex"
                         class="reading-item"
@@ -95,7 +101,7 @@
 
 <script setup lang="ts">
 // import dummyData from "../assets/dummyData.json";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Select from "primevue/select";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
@@ -108,6 +114,16 @@ const meterStore = useMeterStore();
 const viewOptions = ["Zähleransicht", "Zähleransicht mit Zählerstand"];
 const selectedView = ref("Zähleransicht mit Zählerstand");
 
+const expandedMeters = ref<boolean[]>([]);
+
+watch(
+    () => meterStore.meters,
+    (meters: Meter[]) => {
+        expandedMeters.value = meters.map(() => false);
+    }
+);
+
+// ------------------Functions Meter------------------
 function editMeter(meter: Meter) {
     meterStore.openModalAsMeter(meter);
 }
@@ -122,6 +138,7 @@ function deleteMeter(meter: Meter) {
     }
 }
 
+// ------------------Functions MeterReading------------------
 function editMeterReading(meter: Meter, meterReading: MeterReading) {
     meterStore.openModalAsReading(meter, meterReading);
 }
@@ -135,24 +152,32 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
         meterStore.removeMeterReading(meter, meterReading);
     }
 }
+
+function toggleReadings(index: number) {
+    expandedMeters.value[index] = !expandedMeters.value[index];
+}
 </script>
 
 <style scoped>
-/* * {
-    background-color: #f3f4f6;
-} */
+/* ---------Allgemein--------- */
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.overview-list-container {
+    width: 100%;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
 .overview-item {
     flex-direction: column;
     background-color: #595673;
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
-}
-
-.overview-list-container {
-    width: 100%;
-    max-height: 70vh;
-    overflow-y: auto;
 }
 
 /* ---------Zähler-Darstellung--------- */
@@ -172,13 +197,6 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
 }
 
 /* ---------Zählerstand-Darstellung--------- */
-.reading-item {
-    background-color: #b4b3c6;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-}
-
 .meterReadingsOverview {
     display: flex;
     align-items: center;
@@ -187,6 +205,14 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
     gap: 1rem;
     padding: 1rem;
 }
+
+.reading-item {
+    background-color: #b4b3c6;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .meterReadingsOverview p {
     text-align: left;
 }
@@ -196,11 +222,5 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
 .meterReadingsOverview p:nth-child(2),
 .meterReadingsOverview p:nth-child(3) {
     flex: 2;
-}
-
-.headerContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 </style>

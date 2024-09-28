@@ -33,7 +33,7 @@ export interface MeterReading {
     id: any;
     readerName: string;
     date: string; // dd.mm.yyyy
-    value: number | null;
+    value: number;
     // photoUrl?: string; // Optionales Feld für das Foto
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="MeterForm">
-        <!-- -------------------Zähler------------------- -->
+        <!-----------------------------Zähler----------------------------->
         <div class="meterWrapper">
             <h1 class="header">Zähler hinzufügen</h1>
             <div class="inputGroup">
@@ -62,7 +62,7 @@
             </div>
             <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
         </div>
-        <!-- -------------------Zählerstand------------------- -->
+        <!-----------------------------Zählerstand----------------------------->
         <h1 class="header">Zählerstand hinzufügen</h1>
         <div class="readingsWrapper">
             <div class="">
@@ -83,7 +83,7 @@
                     id="name"
                     v-model="readerName"
                     placeholder="Max Mustermann"
-                    class="inputField inputReaderName"
+                    class="inputField"
                     :invalid="!meterStore.isValidName(readerName)"
                 />
             </FloatLabel>
@@ -94,7 +94,7 @@
                     v-model="readingCount"
                     mask="99999.999"
                     placeholder="12456.789"
-                    class="inputField inputValue"
+                    class="inputField"
                     :invalid="!readingCount"
                 />
             </FloatLabel>
@@ -108,16 +108,15 @@
                 :showOnFocus="false"
                 :maxDate="MaxDate"
                 dateFormat="dd.mm.yy"
-                class="inputField inputDate inputFieldAndLabel"
+                class="inputField inputFieldAndLabel"
             />
-            <div class="flexButtons">
-                <!-- <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" /> -->
-                <Button
-                    label="Zählerstand hinzufügen"
-                    @click="addMeterReadingToStore"
-                    icon="pi pi-plus"
-                />
-            </div>
+            <!-- <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" /> -->
+            <Button
+                label="Zählerstand hinzufügen"
+                @click="addMeterReadingToStore"
+                icon="pi pi-plus"
+                class="flexButtons"
+            />
         </div>
     </div>
 </template>
@@ -214,17 +213,19 @@ function addMeterReadingToStore() {
     margin: 10px 0;
     /* gap: 1rem; */
 }
+
+.header {
+    text-align: left;
+    margin-bottom: 0.2rem;
+}
+/* -----------------------------Meter----------------------------- */
+
 .meterWrapper {
     display: flex;
     flex-direction: column;
     width: 50%;
     margin-bottom: 1rem;
     gap: 1rem;
-}
-
-.header {
-    text-align: left;
-    margin-bottom: 0.2rem;
 }
 
 .inputGroup {
@@ -242,7 +243,7 @@ function addMeterReadingToStore() {
 .radio-item > label {
     margin-left: 0.5rem;
 }
-
+/* -----------------------------MeterReading----------------------------- */
 .readingsWrapper {
     display: flex;
     flex-direction: column;
@@ -250,8 +251,12 @@ function addMeterReadingToStore() {
     width: 100%;
 }
 
-.flexButtons {    
-    padding-bottom: 1rem;
+.flexButtons {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .inputFieldAndLabel {

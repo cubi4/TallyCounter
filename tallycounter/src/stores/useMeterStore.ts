@@ -12,21 +12,6 @@ export const useMeterStore = defineStore("meterStore", () => {
     // Getter
     const getAllMeters = () => meters.value;
 
-    function formatDate(date: Date): string {
-        const day = String(date.getDate()).padStart(2, "0"); // adds extra 0 if string.length is < 2 digits
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear();
-        return `${day}.${month}.${year}`; // format to dd.mm.yyyy
-    }
-
-    function formatName(name: string): string {
-        return name
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
-    }
-
-    // methods
     function addMeter(newMeter: Meter) {
         meters.value.push(newMeter);
     }
@@ -41,12 +26,6 @@ export const useMeterStore = defineStore("meterStore", () => {
     function openModalAsMeter(meter: Meter) {
         meterToEdit.value = meter;
         readingToEdit.value = null;
-    }
-
-    function closeModal() {
-        meterToEdit.value = null;
-        readingToEdit.value = null;
-        isEditingReading.value = false;
     }
 
     function openModalAsReading(meter: Meter, reading: MeterReading) {
@@ -70,6 +49,12 @@ export const useMeterStore = defineStore("meterStore", () => {
         meterToEdit.value = null;
     }
 
+    function closeModal() {
+        meterToEdit.value = null;
+        readingToEdit.value = null;
+        isEditingReading.value = false;
+    }
+
     function removeMeter(meter: Meter) {
         meters.value = meters.value.filter((m) => m.id !== meter.id);
     }
@@ -86,23 +71,37 @@ export const useMeterStore = defineStore("meterStore", () => {
         return regex.test(name) && name.length >= 5;
     }
 
+    function formatDate(date: Date): string {
+        const day = String(date.getDate()).padStart(2, "0"); // adds extra 0 if string.length is < 2 digits
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`; // format to dd.mm.yyyy
+    }
+
+    function formatName(name: string): string {
+        return name
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
     return {
         meters,
         meterToEdit,
         readingToEdit,
         isEditingReading,
         getAllMeters,
-        formatDate,
-        formatName,
         addMeter,
         addMeterReading,
         openModalAsMeter,
-        closeModal,
         openModalAsReading,
         saveChangesMeter,
         saveChangesReading,
-        removeMeterReading,
+        closeModal,
         removeMeter,
+        removeMeterReading,
         isValidName,
+        formatDate,
+        formatName,
     };
 });
