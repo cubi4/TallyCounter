@@ -1,55 +1,60 @@
 <template>
     <div class="meter-overview">
-        <h2>Zählerstände</h2>
-        <h3>Übersicht</h3>
-        <Select
-            v-model="selectedView"
-            :options="viewOptions"
-            placeholder="Ansicht auswählen"
-            class="w-full md:w-56"
-        />
+        <h1>Zählerstände</h1>
+        <div class="headerContainer">
+            <h3>Übersicht</h3>
+            <Select
+                v-model="selectedView"
+                :options="viewOptions"
+                placeholder="Ansicht auswählen"
+                class="w-full md:w-56"
+            />
+        </div>
         <div class="overview-list" v-if="selectedView === 'Zähleransicht mit Zählerstand'">
             <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
-                <h3>Zählernummer: {{ meter.meterName }}</h3>
-                <p>Zählerart: {{ meter.type }}</p>
-                <Button
-                    label="Löschen"
-                    @click="deleteMeter(meter)"
-                    icon="pi pi-trash"
-                    class="p-button-danger"
-                />
-                <Button
-                    label="Bearbeiten"
-                    @click="editMeter(meter)"
-                    icon="pi pi-pen-to-square"
-                    class="p-button-warning"
-                />
-                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex" class="reading-item">
-                    <p>Abgelesen von: {{ reading.readerName }}</p>
-                    <p>Wert: {{ reading.value }}</p>
-                    <p>Datum: {{ reading.date }}</p>
+                <div class="meterOverview">
+                    <h3>Zählernummer: {{ meter.meterName }}</h3>
+                    <p>Zählerart: {{ meter.type }}</p>
+                </div>
+
+                <div class="button-container">
                     <Button
-                        label="Zählerstand Löschen"
-                        @click="deleteMeterReading(meter, reading)"
+                        label="Löschen"
+                        @click="deleteMeter(meter)"
                         icon="pi pi-trash"
                         class="p-button-danger"
                     />
                     <Button
-                        label="Zählerstand Bearbeiten"
-                        @click="editMeterReading(meter, reading)"
+                        label="Bearbeiten"
+                        @click="editMeter(meter)"
                         icon="pi pi-pen-to-square"
                         class="p-button-warning"
                     />
                 </div>
+                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex" class="reading-item">
+                    <div class="meterReadingsOverview">
+                        <p>Abgelesen von: {{ reading.readerName }}</p>
+                        <p>Wert: {{ reading.value }}</p>
+                        <p>Datum: {{ reading.date }}</p>
+                    </div>
+                    <div class="button-container">
+                        <Button
+                            label="Zählerstand Löschen"
+                            @click="deleteMeterReading(meter, reading)"
+                            icon="pi pi-trash"
+                            class="p-button-danger"
+                        />
+                        <Button
+                            label="Zählerstand Bearbeiten"
+                            @click="editMeterReading(meter, reading)"
+                            icon="pi pi-pen-to-square"
+                            class="p-button-warning"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
         <div v-if="selectedView === 'Zähleransicht'">
-            <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
-                <h3>Zählernummer: {{ meter.meterName }}</h3>
-                <p>Zählerart: {{ meter.type }}</p>
-            </div>
-        </div>
-        <div v-if="selectedView === 'Zuletzt hinzugefügt'">
             <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
                 <h3>Zählernummer: {{ meter.meterName }}</h3>
                 <p>Zählerart: {{ meter.type }}</p>
@@ -71,8 +76,8 @@ import EditModal from "./EditModal.vue";
 
 const meterStore = useMeterStore();
 
-const viewOptions = ["Zuletzt hinzugefügt", "Zähleransicht", "Zähleransicht mit Zählerstand"];
-const selectedView = ref("Zuletzt hinzugefügt");
+const viewOptions = ["Zähleransicht", "Zähleransicht mit Zählerstand"];
+const selectedView = ref("Zähleransicht mit Zählerstand");
 
 function editMeter(meter: Meter) {
     meterStore.openModalAsMeter(meter);
@@ -98,23 +103,58 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
     }
 }
 
-
 function getLastAdded() {
     const lastAdded = meterStore.meters.map((meter) => meter.readings[meter.readings.length - 1]);
 }
 </script>
 
 <style scoped>
+/* * {
+    background-color: #f3f4f6;
+} */
 .overview-item {
-    border: 1px solid #ccc;
-    margin: 10px;
+    flex-direction: column;
+    background-color: #374151;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
 }
 
+/* ---------Zähler-Darstellung--------- */
+.meterOverview {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+}
+.button-container {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0rem 1rem;
+}
+
+/* ---------Zählerstand-Darstellung--------- */
 .reading-item {
-    background-color: rgb(23, 23, 173); /* Leichtes Lila als Hintergrund */
+    background-color: #4b5563;
     margin-top: 10px;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+}
+
+.meterReadingsOverview {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 </style>

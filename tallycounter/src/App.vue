@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import MeterOverview from "./components/MeterOverview.vue";
 import MeterForm from "./components/MeterForm.vue";
-
-
-
 </script>
 
 <template>
@@ -14,12 +11,20 @@ import MeterForm from "./components/MeterForm.vue";
 </template>
 
 <style scoped>
+* {
+    /* color: black; */
+    /* background-color: #ffffff; */
+    font-family: sans-serif;
+}
+
 .app {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
     height: 100vh;
+    gap: 2rem;
+    padding: 1rem 2rem 2rem 2rem;
 }
 
 .MeterOverview {
