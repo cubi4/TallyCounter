@@ -2,115 +2,120 @@
     <div class="MeterForm">
         <!-- -------------------Zähler------------------- -->
         <div class="meterWrapper">
-        <h1 class="header">Zähler hinzufügen</h1>
-        <div class="inputGroup">
-            <label for="nummer">Zählernamen Eingeben:</label>
-            <FloatLabel>
-                <label for="nummer">meterName</label>
-                <InputMask
-                    id="tallyId"
-                    v-model="meterName"
-                    mask="99999999"
-                    placeholder="12345678"
-                />
-            </FloatLabel>
-        </div>
-        <div class="radioButtonWrapper">
-            <div class="radio-item">
-                <RadioButton v-model="meterType" inputId="Strom" name="tallyType" value="Strom" />
-                <label for="Strom" class="ml-2">Strom</label>
+            <h1 class="header">Zähler hinzufügen</h1>
+            <div class="inputGroup">
+                <FloatLabel>
+                    <label for="nummer">Zählername (14 Ziffern)</label>
+                    <InputMask
+                        id="tallyId"
+                        v-model="meterName"
+                        mask="99999999999999"
+                        :invalid="!meterName"
+                    />
+                </FloatLabel>
             </div>
-            <!-- generieren? -->
-            <div class="radio-item">
-                <RadioButton v-model="meterType" inputId="Gas" name="tallyType" value="Gas" />
-                <label for="Gas" class="ml-2">Gas</label>
-            </div>
+            <div class="radioButtonWrapper">
+                <div class="radio-item">
+                    <RadioButton
+                        v-model="meterType"
+                        inputId="Strom"
+                        name="tallyType"
+                        value="Strom"
+                    />
+                    <label for="Strom" class="ml-2">Strom</label>
+                </div>
+                <!-- generieren? -->
+                <div class="radio-item">
+                    <RadioButton v-model="meterType" inputId="Gas" name="tallyType" value="Gas" />
+                    <label for="Gas" class="ml-2">Gas</label>
+                </div>
 
-            <div class="radio-item">
-                <RadioButton v-model="meterType" inputId="Wasser" name="tallyType" value="Wasser" />
-                <label for="Wasser" class="ml-2">Wasser</label>
-            </div>
+                <div class="radio-item">
+                    <RadioButton
+                        v-model="meterType"
+                        inputId="Wasser"
+                        name="tallyType"
+                        value="Wasser"
+                    />
+                    <label for="Wasser" class="ml-2">Wasser</label>
+                </div>
 
-            <div class="radio-item">
-                <RadioButton
-                    v-model="meterType"
-                    inputId="Heizung"
-                    name="tallyType"
-                    value="Heizung"
-                />
-                <label for="Heizung" class="ml-2">Heizung</label>
-            </div>
+                <div class="radio-item">
+                    <RadioButton
+                        v-model="meterType"
+                        inputId="Heizung"
+                        name="tallyType"
+                        value="Heizung"
+                    />
+                    <label for="Heizung" class="ml-2">Heizung</label>
+                </div>
 
-            <div class="radio-item">
-                <RadioButton
-                    v-model="meterType"
-                    inputId="Sonstiges"
-                    name="tallyType"
-                    value="Sonstiges"
-                />
-                <label for="Sonstiges" class="ml-2">Sonstiges</label>
+                <div class="radio-item">
+                    <RadioButton
+                        v-model="meterType"
+                        inputId="Sonstiges"
+                        name="tallyType"
+                        value="Sonstiges"
+                    />
+                    <label for="Sonstiges" class="ml-2">Sonstiges</label>
+                </div>
             </div>
-        </div>
-        <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
+            <Button label="Zähler hinzufügen" @click="addMeterToStore" icon="pi pi-plus" />
         </div>
         <!-- -------------------Zählerstand------------------- -->
-        <div class="meterReadingsWrapper">
-            <div class="flexReadings">
-                <h1>Zählerstand hinzufügen</h1>
-                <div class="">
-                    <p>Für welchen Zähler?</p>
-                    <Select
-                        v-model="selectedMeter"
-                        :options="meterOptions"
-                        placeholder="Zähler auswählen"
-                        class="inputField inputMeterSelect"
-                    />
-                </div>
-                <FloatLabel class="inputFieldAndLabel">
-                    <label class="labelinputReaderName" for="name">Vorname Nachname</label>
-                    <InputText
-                        type="text"
-                        id="name"
-                        v-model="readerName"
-                        placeholder="Max Mustermann"
-                        class="inputField inputReaderName"
-                    />
-                </FloatLabel>
-                <FloatLabel class="inputFieldAndLabel">
-                    <label for="Wert">Wert</label>
-                    <InputMask
-                        id="value"
-                        v-model="readingCount"
-                        mask="99999.999"
-                        placeholder="12456.789"
-                        class="inputField inputValue"
-                    />
-                </FloatLabel>
-
-                <DatePicker
-                    v-model="date"
-                    id="date"
-                    type="date"
-                    showIcon
-                    fluid
-                    :showOnFocus="false"
-                    :max="maxDate"
-                    dateFormat="dd.mm.yy"
-                    :placeholder="maxDateFormatted"
-                    class="inputField inputDate inputFieldAndLabel"
+        <div class="readingsWrapper">
+            <h1>Zählerstand hinzufügen</h1>
+            <div class="">
+                <p>Für welchen Zähler?</p>
+                <Select
+                    v-model="selectedMeter"
+                    :options="meterOptions"
+                    placeholder="Zähler auswählen"
+                    class="inputField"
+                    :invalid="!selectedMeter"
                 />
-                <div class="flexButtons">
-                    <Button
-                        label="Eingaben löschen"
-                        @click="resetForm"
-                        class="p-button-secondary"
-                    />
-                    <Button
-                        label="Zählerstand hinzufügen"
-                        @click="addMeterReadingToStore"
-                        icon="pi pi-plus"
-                    />
-                </div>
+            </div>
+            <FloatLabel class="inputFieldAndLabel">
+                <label class="labelinputReaderName" for="name">Vorname Nachname</label>
+                <InputText
+                    type="text"
+                    id="name"
+                    v-model="readerName"
+                    placeholder="Max Mustermann"
+                    class="inputField inputReaderName"
+                    :invalid="!meterStore.isValidName(readerName)"
+                />
+            </FloatLabel>
+            <FloatLabel class="inputFieldAndLabel">
+                <label for="Wert">Wert</label>
+                <InputMask
+                    id="value"
+                    v-model="readingCount"
+                    mask="99999.999"
+                    placeholder="12456.789"
+                    class="inputField inputValue"
+                    :invalid="!readingCount"
+                />
+            </FloatLabel>
+
+            <DatePicker
+                v-model="date"
+                id="date"
+                type="date"
+                showIcon
+                fluid
+                :showOnFocus="false"
+                :maxDate="MaxDate"
+                dateFormat="dd.mm.yy"
+                class="inputField inputDate inputFieldAndLabel"
+            />
+            <div class="flexButtons">
+                <Button label="Eingaben löschen" @click="resetForm" class="p-button-secondary" />
+                <Button
+                    label="Zählerstand hinzufügen"
+                    @click="addMeterReadingToStore"
+                    icon="pi pi-plus"
+                />
             </div>
         </div>
     </div>
@@ -131,9 +136,7 @@ import { v4 as uuidv4 } from "uuid";
 const meterStore = useMeterStore();
 
 //Max Date for Datepicker
-const today = new Date();
-const maxDate = today.toISOString().split("T")[0];
-const maxDateFormatted = maxDate.split("-").reverse().join(".");
+const MaxDate = new Date();
 
 //Variables Form input
 const meterName = ref("");
@@ -142,7 +145,7 @@ const readingCount = ref(null);
 const date = ref(new Date());
 const meterType = ref("");
 
-//Variables Select
+//Variables to Select
 const selectedMeter = ref(null);
 const meterOptions = computed(() => {
     return meterStore.meters.map((meter) => meter.meterName);
@@ -162,6 +165,7 @@ function formatDate(date: Date): string {
     const year = date.getFullYear();
     return `${day}.${month}.${year}`; // format to dd.mm.yyyy
 }
+
 
 function addMeterToStore() {
     if (!meterName.value || !meterType.value) {
@@ -193,6 +197,11 @@ function addMeterReadingToStore() {
         alert("Bitte füllen Sie alle Felder für den Zählerstand aus.");
         return;
     }
+
+    if (!meterStore.isValidName(readerName.value)) {
+        alert("Bitte geben Sie einen gültigen Vor- und Nachnamen ein (max 1 Leerzeichen).");
+        return;
+    }
     const newReading = {
         id: uuidv4(),
         readerName: readerName.value,
@@ -214,15 +223,14 @@ function addMeterReadingToStore() {
 .meterWrapper {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding-left: 1rem;
+    width: 50%;
     margin-bottom: 1rem;
     gap: 1rem;
 }
 
 .header {
     text-align: left;
-    margin-bottom: .2rem;
+    margin-bottom: 0.2rem;
 }
 
 .inputGroup {
@@ -241,20 +249,7 @@ function addMeterReadingToStore() {
     margin-left: 0.5rem;
 }
 
-
-/* h1 {
-    margin: 1rem 0 0 0;
-} */
-
-.meterReadingsWrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    gap: 1rem;
-}
-
-.flexReadings {
+.readingsWrapper {
     display: flex;
     flex-direction: column;
     gap: 1rem;

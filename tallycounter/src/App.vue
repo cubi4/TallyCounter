@@ -10,7 +10,7 @@ import MeterForm from "./components/MeterForm.vue";
     </div>
 </template>
 
-<style scoped>
+<style>
 * {
     /* color: black; */
     /* background-color: #ffffff; */

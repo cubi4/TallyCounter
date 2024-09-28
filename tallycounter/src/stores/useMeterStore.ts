@@ -12,6 +12,13 @@ export const useMeterStore = defineStore("meterStore", () => {
     // Getter
     const getAllMeters = () => meters.value;
 
+    function formatDate(date: Date): string {
+        const day = String(date.getDate()).padStart(2, "0"); // adds extra 0 if string.length is < 2 digits
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`; // format to dd.mm.yyyy
+    }
+
     // methods
     function addMeter(newMeter: Meter) {
         meters.value.push(newMeter);
@@ -29,7 +36,7 @@ export const useMeterStore = defineStore("meterStore", () => {
         readingToEdit.value = null;
     }
 
-    function closeModalAsMeter() {
+    function closeModal() {
         meterToEdit.value = null;
         readingToEdit.value = null;
         isEditingReading.value = false;
@@ -67,8 +74,9 @@ export const useMeterStore = defineStore("meterStore", () => {
         );
     }
 
-    function clearMeters() {
-        meters.value = [];
+    function isValidName(name: string) {
+        const regex = /^[a-zA-Z]+ [a-zA-Z]+$/; // allows only letters and exactly one space
+        return regex.test(name) && name.length >= 5;
     }
 
     return {
@@ -77,15 +85,16 @@ export const useMeterStore = defineStore("meterStore", () => {
         readingToEdit,
         isEditingReading,
         getAllMeters,
+        formatDate,
         addMeter,
         addMeterReading,
         openModalAsMeter,
-        closeModalAsMeter,
+        closeModal,
         openModalAsReading,
         saveChangesMeter,
         saveChangesReading,
         removeMeterReading,
         removeMeter,
-        clearMeters,
+        isValidName,
     };
 });

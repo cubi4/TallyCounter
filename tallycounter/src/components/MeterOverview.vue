@@ -10,46 +10,52 @@
                 class="w-full md:w-56"
             />
         </div>
-        <div class="overview-list" v-if="selectedView === 'Zähleransicht mit Zählerstand'">
-            <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
-                <div class="meterOverview">
-                    <h3>Zählernummer: {{ meter.meterName }}</h3>
-                    <p>Zählerart: {{ meter.type }}</p>
-                </div>
-
-                <div class="button-container">
-                    <Button
-                        label="Löschen"
-                        @click="deleteMeter(meter)"
-                        icon="pi pi-trash"
-                        class="p-button-danger"
-                    />
-                    <Button
-                        label="Bearbeiten"
-                        @click="editMeter(meter)"
-                        icon="pi pi-pen-to-square"
-                        class="p-button-warning"
-                    />
-                </div>
-                <div v-for="(reading, rIndex) in meter.readings" :key="rIndex" class="reading-item">
-                    <div class="meterReadingsOverview">
-                        <p>Abgelesen von: {{ reading.readerName }}</p>
-                        <p>Wert: {{ reading.value }}</p>
-                        <p>Datum: {{ reading.date }}</p>
+        <div class="overview-list-container">
+            <div class="overview-list" v-if="selectedView === 'Zähleransicht mit Zählerstand'">
+                <div v-for="(meter, index) in meterStore.meters" :key="index" class="overview-item">
+                    <div class="meterOverview">
+                        <h3>Zählernummer: {{ meter.meterName }}</h3>
+                        <p>Zählerart: {{ meter.type }}</p>
                     </div>
+
                     <div class="button-container">
                         <Button
-                            label="Zählerstand Löschen"
-                            @click="deleteMeterReading(meter, reading)"
+                            label="Löschen"
+                            @click="deleteMeter(meter)"
                             icon="pi pi-trash"
                             class="p-button-danger"
                         />
                         <Button
-                            label="Zählerstand Bearbeiten"
-                            @click="editMeterReading(meter, reading)"
+                            label="Bearbeiten"
+                            @click="editMeter(meter)"
                             icon="pi pi-pen-to-square"
                             class="p-button-warning"
                         />
+                    </div>
+                    <div
+                        v-for="(reading, rIndex) in meter.readings"
+                        :key="rIndex"
+                        class="reading-item"
+                    >
+                        <div class="meterReadingsOverview">
+                            <p>Abgelesen von: <b>{{ reading.readerName }}</b></p>
+                            <p>Wert: <b>{{ reading.value }}</b></p>
+                            <p>Datum: <b>{{ reading.date }}</b></p>
+                        </div>
+                        <div class="button-container">
+                            <Button
+                                label="Zählerstand Löschen"
+                                @click="deleteMeterReading(meter, reading)"
+                                icon="pi pi-trash"
+                                class="p-button-danger"
+                            />
+                            <Button
+                                label="Zählerstand Bearbeiten"
+                                @click="editMeterReading(meter, reading)"
+                                icon="pi pi-pen-to-square"
+                                class="p-button-warning"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,9 +109,6 @@ function deleteMeterReading(meter: Meter, meterReading: MeterReading) {
     }
 }
 
-function getLastAdded() {
-    const lastAdded = meterStore.meters.map((meter) => meter.readings[meter.readings.length - 1]);
-}
 </script>
 
 <style scoped>
@@ -118,6 +121,12 @@ function getLastAdded() {
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
+}
+
+.overview-list-container {
+    width: 100%;
+    max-height: 70vh; 
+    overflow-y: auto; 
 }
 
 /* ---------Zähler-Darstellung--------- */
@@ -148,8 +157,19 @@ function getLastAdded() {
     display: flex;
     align-items: center;
     flex-direction: row;
+    justify-content: space-between;
     gap: 1rem;
     padding: 1rem;
+}
+.meterReadingsOverview p {
+    text-align: left; 
+}
+.meterReadingsOverview p:first-child {
+    flex: 3; 
+}
+.meterReadingsOverview p:nth-child(2),
+.meterReadingsOverview p:nth-child(3) {
+    flex: 2; 
 }
 
 .headerContainer {
