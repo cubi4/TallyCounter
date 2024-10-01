@@ -166,17 +166,17 @@ function addMeterToStore() {
         return;
     }
 
-    if (meterStore.meters.find((meter) => meter.meterName === newMeter.meterName)) {
-        alert("Zählername existiert bereits, bitte geben Sie dem Zähler einen anderen Namen.");
-        return;
-    }
-
+    
     const newMeter = {
         id: uuidv4(), //create random ID
         meterName: meterName.value,
         type: meterType.value,
         readings: [],
     };
+    if (meterStore.meters.find((meter) => meter.meterName === newMeter.meterName)) {
+        alert("Zählername existiert bereits, bitte geben Sie dem Zähler einen anderen Namen.");
+        return;
+    }
     meterStore.addMeter(newMeter);
 
     resetForm();
